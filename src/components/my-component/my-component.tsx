@@ -1,5 +1,7 @@
 import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+// import { UsaLink } from '@uswds/web-components/components/usa-link';
+// import { UsaLink } from '@uswds/web-components/components/usa-link';
+import { UsaLink } from '@uswds/web-components/dist/components/usa-link.js';
 
 @Component({
   tag: 'my-component',
@@ -8,25 +10,19 @@ import { format } from '../../utils/utils';
 })
 export class MyComponent {
   /**
-   * The first name
-   */
-  @Prop() first: string;
-
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
    * The last name
    */
-  @Prop() last: string;
+  @Prop() href: string;
 
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
+  connectedCallback() {
+    customElements.get('usa-link') || window.customElements.define('usa-link', UsaLink);
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <usa-link href={this.href}>
+        <slot></slot>
+      </usa-link>
+    );
   }
 }
